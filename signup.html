@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .signup-container {
+            margin-top: 100px;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 signup-container">
+            <div class="text-center mb-4">
+                <img src="clglogo.jpeg" alt="College Logo" width="550">
+                <h2 class="mt-3">Faculty Data Collector - Signup</h2>
+            </div>
+            <form id="signupForm" onsubmit="return validateForm()" action="login.html">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="fullname" placeholder="Full Name" required>
+                    <small id="fullnameError" class="form-text error-message"></small>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="username" placeholder="Username (Email)" required>
+                    <small id="usernameError" class="form-text error-message"></small>
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" id="phoneNumber" placeholder="Phone Number" pattern="[0-9]{10}" required>
+                    <small id="phoneNumberError" class="form-text error-message"></small>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="department" required>
+                        <option value="" disabled selected>Select Department</option>
+                        <option value="cse">CSE</option>
+                        <option value="it">IT</option>
+                        <option value="csm">CSM</option>
+                        <option value="ai">AI</option>
+                        <option value="aids">AIDS</option>
+                        <option value="auml">AUML</option>
+                        <option value="civil">Civil</option>
+                        <option value="chem">Chem</option>
+                        <option value="mech">Mech</option>
+                    </select>
+                    <small id="departmentError" class="form-text error-message"></small>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" placeholder="Password" required>
+                    <small id="passwordError" class="form-text error-message"></small>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
+                    <small id="confirmPasswordError" class="form-text error-message"></small>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Signup</button>
+                </div>
+                <div class="form-group text-center">
+                    <p>Already have an account? <a href="login.html">Login here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function validateForm() {
+        var fullname = document.getElementById('fullname').value;
+        var username = document.getElementById('username').value;
+        var phoneNumber = document.getElementById('phoneNumber').value;
+        var department = document.getElementById('department').value;
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        var passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])(?=.{8,})/;
+
+        var isValid = true;
+
+        if (fullname.trim() === "") {
+            document.getElementById('fullnameError').textContent = "Please enter your full name.";
+            isValid = false;
+        } else {
+            document.getElementById('fullnameError').textContent = "";
+        }
+
+        if (!emailRegex.test(username)) {
+            document.getElementById('usernameError').textContent = "Please enter a valid email address.";
+            isValid = false;
+        } else {
+            document.getElementById('usernameError').textContent = "";
+        }
+
+        if (!/^[0-9]{10}$/.test(phoneNumber)) {
+            document.getElementById('phoneNumberError').textContent = "Please enter a valid 10-digit phone number.";
+            isValid = false;
+        } else {
+            document.getElementById('phoneNumberError').textContent = "";
+        }
+
+        if (department === "") {
+            document.getElementById('departmentError').textContent = "Please select a department.";
+            isValid = false;
+        } else {
+            document.getElementById('departmentError').textContent = "";
+        }
+
+        if (!passwordRegex.test(password)) {
+            document.getElementById('passwordError').textContent = "Password must be at least 8 characters long, contain at least one uppercase letter, one numeric digit, and one special character.";
+            isValid = false;
+        } else {
+            document.getElementById('passwordError').textContent = "";
+        }
+
+        if (confirmPassword !== password) {
+            document.getElementById('confirmPasswordError').textContent = "Passwords do not match.";
+            isValid = false;
+        } else {
+            document.getElementById('confirmPasswordError').textContent = "";
+        }
+
+        if (isValid) {
+            alert("Thank you for successful signup!");
+            return true;
+        }
+
+        return false;
+    }
+</script>
+</body>
+</html>

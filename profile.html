@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .profile-container {
+            width: 400px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .profile-img-container {
+            margin-bottom: 20px;
+            text-align: center;
+            cursor: pointer;
+            animation: bounceIn 0.8s ease;
+        }
+        @keyframes bounceIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #007BFF;
+            transition: border-color 0.3s ease;
+        }
+        .profile-img:hover {
+            border-color: #0056b3;
+        }
+        .profile-details label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            animation: slideInLeft 0.5s ease;
+        }
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .edit-input {
+            display: none;
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+        .edit-button, .sign-out-button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-right: 10px;
+            animation: slideInRight 0.5s ease;
+        }
+        @keyframes slideInRight {
+            from {
+                transform: translateX(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .edit-button:hover, .sign-out-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-img-container" onclick="document.getElementById('editImageInput').click();">
+            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Profile Photo" class="profile-img" id="profileImg">
+            <input type="file" id="editImageInput" style="display:none;">
+        </div>
+
+        <div class="profile-details">
+            <label for="fullName">Full Name:</label>
+            <span id="fullName">John Doe</span>
+            <input type="text" id="editFullName" class="edit-input" style="display:none;"><br>
+
+            <label for="username">Username:</label>
+            <span id="username">johndoe123</span>
+            <input type="text" id="editUsername" class="edit-input" style="display:none;"><br>
+
+            <label for="phoneNumber">Phone Number:</label>
+            <span id="phoneNumber">123-456-7890</span>
+            <input type="text" id="editPhoneNumber" class="edit-input" style="display:none;"><br>
+
+            <label for="dept">Department:</label>
+            <span id="dept">IT</span>
+            <input type="text" id="editDept" class="edit-input" style="display:none;"><br>
+
+            <label for="email">Email:</label>
+            <span id="email">johndoe@example.com</span>
+            <input type="email" id="editEmail" class="edit-input" style="display:none;"><br>
+
+        </div>
+
+        <button class="edit-button" id="edit-button" onclick="toggleEditProfile()">Edit</button>
+        <button class="sign-out-button" id="sign-out-button" onclick="signOut()">Sign Out</button>
+    </div>
+
+    <script>
+        document.getElementById('profileImg').addEventListener('click', function() {
+            document.getElementById('editImageInput').click();
+        });
+
+        function toggleEditProfile() {
+            var editInputs = document.querySelectorAll('.edit-input');
+            var spans = document.querySelectorAll('.profile-details span');
+            
+            for (var i = 0; i < editInputs.length; i++) {
+                if (editInputs[i].style.display === 'none') {
+                    editInputs[i].style.display = 'inline-block';
+                    spans[i].style.display = 'none';
+                    editInputs[i].value = spans[i].textContent;
+                    document.getElementById('sign-out-button').style.display='none';
+                    document.getElementById('edit-button').innerHTML='Save';
+                } else {
+                    spans[i].textContent = editInputs[i].value;
+                    editInputs[i].style.display = 'none';
+                    spans[i].style.display = 'inline-block';
+                    document.getElementById('sign-out-button').style.display='';
+                    document.getElementById('edit-button').innerHTML='Edit';
+                }
+
+            }
+
+            var imgElement = document.getElementById('profileImg');
+            var imgInput = document.getElementById('editImageInput');
+
+            if (imgInput.files && imgInput.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    imgElement.src = e.target.result;
+                };
+
+                reader.readAsDataURL(imgInput.files[0]);
+            }
+            
+        }
+
+        function signOut() {
+            alert('Signing out...');
+            
+            // Redirect to sign-out page
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
